@@ -6,7 +6,7 @@ const fetchCategories = () => {
 
 // fetchCategories();
 const showCategories = (data) => {
-  console.log(data);
+  // console.log(data);
   // capture categories container to append the category links
   const categoriesContainer = document.getElementById("categories-container");
   data.news_category.forEach((singleCategory) => {
@@ -69,8 +69,8 @@ const showAllNews = (data, category_name) => {
       </div>
       <div><i class="fas fa-star"></i></div>
       <div>
-      <i class="fas fa-arrow-right" onclick="showNewsDetail('${_id}')" data-bs-toggle = "modal"
-      data-bs-target = "#exampleModal"></i>
+      <i class="fas fa-arrow-right" onclick="fetchNewsDetail('${_id}')" data-bs-toggle="modal"
+        data-bs-target="#exampleModal"></i>
       </div>
       </div>
     </div>
@@ -136,5 +136,7 @@ const showNewsDetail = (newsDetail) => {
   </div>
   </div>
   `;
+  
+ 
   
 };
