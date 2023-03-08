@@ -1,3 +1,5 @@
+let fetchData = [];
+
 const fetchCategories = () => {
   fetch("https://openapi.programming-hero.com/api/news/categories")
     .then((res) => res.json())
@@ -29,7 +31,10 @@ const fetchCategoryNews = (category_id, category_name) => {
   // console.log(url);
   fetch(url)
     .then((res) => res.json())
-    .then((data) => showAllNews(data.data, category_name));
+    .then((data) => {
+      fetchData = data.data;
+      showAllNews(data.data, category_name)
+    });
 };
 
 const showAllNews = (data, category_name) => {
@@ -67,7 +72,10 @@ const showAllNews = (data, category_name) => {
       
       <p class="m-0 p-0">${total_view ? total_view : "Not available"}</p>
       </div>
-      <div><i class="fas fa-star"></i></div>
+      <div class="d-flex gap-2>
+     ${generatestars(rating.number)}
+      <p>${rating.number}</p>
+      </div>
       <div>
       <i class="fas fa-arrow-right" onclick="fetchNewsDetail('${_id}')" data-bs-toggle="modal"
         data-bs-target="#exampleModal"></i>
@@ -137,6 +145,39 @@ const showNewsDetail = (newsDetail) => {
   </div>
   `;
   
- 
-  
 };
+
+// || -if lest side false then right side will be executed
+// && -if lest side true then right side will be executed
+// (left || right)
+
+// show trending news
+const showTrending = () =>{
+  let trendingNews = fetchData.filter(singleData => singleData.others_info.is_trending=== true);
+  const category_name = document.getElementById("category-name").innerText;
+  // console.log(trendingNews)
+  showAllNews(trendingNews,category_name);
+  // console.log(fetchData);
+}
+const showTodaysPick = () =>{
+  let todaysPick= fetchData.filter(singleData => singleData.others_info.is_todays_pick === true);
+  const category_name = document.getElementById("category-name").innerText;
+  console.log( todaysPick)
+  showAllNews( todaysPick,category_name);
+  // console.log(fetchData);
+}
+
+// optional
+// generate satrs
+const generatestars = rating =>{
+  let ratinHTML = '';
+  for(let i=0;i<=Math.floor(rating);i++)
+  {
+    ratinHTML+= `  <i class="fas fa-star"></i>`;
+  }
+  if(rating- Math.floor(rating)>0)
+  {
+    ratinHTML+=`  <i class="fas fa-star-half"></i>`
+  }
+  return ratinHTML;
+}
